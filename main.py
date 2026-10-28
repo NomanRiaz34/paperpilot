@@ -495,7 +495,7 @@ if not st.session_state.messages:
                 st.rerun()
 
 for message in st.session_state.messages:
-    with st.chat_message(message["role"], avatar="🧑‍💻" if message["role"] == "user" else "✦"):
+    with st.chat_message(message["role"], avatar="user" if message["role"] == "user" else "assistant"):
         st.markdown(message["content"])
         if message["role"] == "assistant" and message.get("sources"):
             with st.expander(f"📎 Sources used ({len(message['sources'])})"):
@@ -510,10 +510,10 @@ if not question and st.session_state.get("pending_question"):
 
 if question:
     st.session_state.messages.append({"role": "user", "content": question})
-    with st.chat_message("user", avatar="🧑‍💻"):
+    with st.chat_message("user", avatar="user"):
         st.markdown(question)
 
-    with st.chat_message("assistant", avatar="✨"):
+    with st.chat_message("assistant", avatar="assistant"):
         try:
             with st.spinner("Searching your document and preparing an answer…"):
                 retriever = st.session_state.vectorstore.as_retriever(
